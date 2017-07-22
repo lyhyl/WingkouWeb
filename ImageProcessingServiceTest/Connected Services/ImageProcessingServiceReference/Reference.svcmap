@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="5436e028-d008-455f-a0d1-99673c671845" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://119.29.244.64:32768/ImageProcessingService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ImageProcessingService.xsd" MetadataType="Schema" ID="617e461a-bc52-4bcc-b260-ee435549871d" SourceId="1" SourceUrl="http://119.29.244.64:32768/ImageProcessingService.svc?xsd=xsd1" />
+    <MetadataFile FileName="ImageProcessingService.disco" MetadataType="Disco" ID="015b9cc5-f2e8-44e1-9a1e-63530eac28d6" SourceId="1" SourceUrl="http://119.29.244.64:32768/ImageProcessingService.svc?disco" />
+    <MetadataFile FileName="ImageProcessingService.wsdl" MetadataType="Wsdl" ID="976d459d-eb0e-43ac-9f4f-3bb41a137194" SourceId="1" SourceUrl="http://119.29.244.64:32768/ImageProcessingService.svc?wsdl" />
+    <MetadataFile FileName="ImageProcessingService1.xsd" MetadataType="Schema" ID="3f463bfe-3d26-4b67-bbbe-ba3109c2da46" SourceId="1" SourceUrl="http://119.29.244.64:32768/ImageProcessingService.svc?xsd=xsd2" />
+    <MetadataFile FileName="ImageProcessingService2.xsd" MetadataType="Schema" ID="84260f7b-04d8-4b76-ba6e-a8989258bf1a" SourceId="1" SourceUrl="http://119.29.244.64:32768/ImageProcessingService.svc?xsd=xsd0" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
