@@ -34,6 +34,9 @@
                     <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("Wingkou", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @*<a href="@Url.Action("Index","Home")" class="navbar-brand">
+                    <img src="~/Content/ui/avatar128.png" class="navbar-fixed-top" style="height:inherit;padding:5px 5px 5px 5px;" />
+                </a>*@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -47,6 +50,7 @@
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">CG Lab <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li>@Html.ActionLink("CG Lab", "Index", "CGLab")</li>
+                                <li class="divider"></li>
                                 <li>@Html.ActionLink("Lab 0", "HRUT", "CGLab")</li>
                             </ul>
                         </li>

@@ -1,13 +1,13 @@
-﻿var uploadUrl = "";
-var upcID;
-var curProgess = 0;
-var tmpProgess = 0;
-var tarProgess = 0;
+﻿var uploadUrl = "/cglab/pimg";
+
+function getRootUrl() {
+    return window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
+}
 
 function ShowImagePreview(input) {
-    var imgp = $("#ImagePreviewer");
+    var img = $("#ImagePreviewer");
     if (input.value === "") {
-        imgp.prop("src", "Content/ui/selectImage.png");
+        img.prop("src", getRootUrl() + "Content/ui/selectImage.png");
         return;
     }
     if (input.files && input.files[0]) {
@@ -25,21 +25,20 @@ function ShowImagePreview(input) {
             fail = true;
         }
         if (fail) {
-            imgp.prop("src", "../Content/ui/selectImage.png");
+            img.prop("src", getRootUrl() + "Content/ui/selectImage.png");
             input.value = "";
             return;
         }
-        imgp.prop("src", "Content/ui/uploading.gif");
+        img.prop("src", getRootUrl() + "Content/ui/uploading.gif");
         var reader = new FileReader();
         reader.onload = function (e) {
-            var img = new Image();
-            img.src = e.target.result;
-            imgp.prop("src", e.target.result).fadeIn("fast");
+            var im = new Image();
+            im.src = e.target.result;
+            img.prop("src", e.target.result).fadeIn("fast");
         };
         reader.readAsDataURL(input.files[0]);
     }
 }
-
 function MakeAlert(msg) {
     $('#AlertMessagePlaceholder').html('<p>' + msg + '</p>');
     document.getElementById("AlertPanel").style.height = "100%";
@@ -63,77 +62,44 @@ function ValidateSingleInput(input) {
     return false;
 }
 
-function upload() {
-    var maxSize = 100;
+function Upload() {
     var file = document.getElementById("ImageSelector").files[0];
     if (!file) {
         MakeAlert("咦自拍呢?");
         return;
     }
-    console.log(file.size);
-    if (file.size > maxSize * 1024 * 1024) {
-        console.log(">" + maxSize + "M");
-        return;
-    }
 
-    // show loading
-    document.getElementById("UploadMask").style.height = "100%";
-    $("UploadMask").fadeIn("fast");
+    document.getElementById("ProgressPanel").style.height = "100%";
 
     var reader = new FileReader();
-    upcID = setInterval("updateProgessCircle()", 30);
-    curProgess = 0;
-    tmpProgess = 0;
-    tarProgess = 0;
     reader.onload = function (e) {
         $.ajax({
             async: true,
             type: "POST",
-            url: uploadUrl + "?file=" + file.name,
+            url: uploadUrl + "?file=" + file.name + "&connId=" + connId + "&method=" + "ImageProcessingRaw",
             contentType: "application/octect-stream",
             processData: false,
             data: e.target.result,
             xhr: function () {
                 var xhr = $.ajaxSettings.xhr();
                 xhr.upload.onprogress = function (evt) {
-                    tarProgess = evt.loaded / file.size;
+                    UpdateProgress(evt.loaded / file.size);
                 };
                 return xhr;
             }
+        }).done(function (data, textStatus, jqXHR) {
+            document.getElementById("ImagePreviewer").src = "data:image/jpeg;base64," + data;
+            document.getElementById("UploadButton").style.display = "none";
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown);
+        }).always(function () {
+            document.getElementById("ProgressPanel").style.height = "0%";
         });
     };
     reader.readAsArrayBuffer(file);
 }
 
-function updateProgessCircle() {
-    if (curProgess === 1) {
-        clearInterval(upcID);
-    }
-
-    if (tmpProgess === curProgess) {
-        tmpProgess = tarProgess;
-    }
-
-    var toProgess = (tmpProgess - curProgess) * 0.05 + curProgess;
-    curProgess = tmpProgess - toProgess < 0.01 ? tmpProgess : toProgess;
-
-    var ps = curProgess * 100;
-    document.getElementById("progess").innerHTML = ps.toFixed(2) + "%";
-    document.getElementById("UploadMask").style.height = (100 - ps).toFixed(2) + "%";
-
-    //var canvas = document.getElementById("progessCircle"),
-    //    context = canvas.getContext("2d"),
-    //    cenx = canvas.width / 2,
-    //    ceny = canvas.height / 2,
-    //    begr = -Math.PI / 2;
-
-    //var ang = Math.PI * 2 * curProgess;
-
-    //context.clearRect(0, 0, canvas.width, canvas.height);
-    //context.strokeStyle = "#888";
-    //context.lineWidth = 5;
-    //context.beginPath();
-    //context.arc(cenx, ceny, Math.min(cenx, ceny), begr, begr + ang, false);
-    //context.stroke();
-    //context.closePath();
+function UpdateProgress(tarProgress) {
+    var ps = tarProgress * 100;
+    document.getElementById("progressBar0").style.width = ps.toFixed(2) + "%";
 }

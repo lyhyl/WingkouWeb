@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using WingkouWeb.Utils;
 
 namespace WingkouWeb
 {
@@ -16,6 +17,9 @@ namespace WingkouWeb
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            Logger.SetConfig(Server.MapPath("~"), "WingkouWeb");
+            Logger.WriteLog("Startup");
         }
     }
 }

@@ -12,7 +12,7 @@ namespace ImageProcessingService
     public interface IImageProcessingService
     {
         [OperationContract]
-        int ProcessImage(string uri, string methodName);
+        string ProcessImage(string uri, string methodName);
 
         [OperationContract]
         IEnumerable<ProcessMethod> GetAvailableMethod();
@@ -26,5 +26,11 @@ namespace ImageProcessingService
 
         [DataMember]
         public string Description { private set; get; }
+
+        public ProcessMethod(string name, string description)
+        {
+            Name = name;
+            Description = description;
+        }
     }
 }

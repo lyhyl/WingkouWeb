@@ -68,6 +68,7 @@
       <DependentUpon>ImageProcessingService.svc</DependentUpon>
     </Compile>
     <Compile Include="ImageProcessingService.cs" />
+    <Compile Include="PluginSettingsSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

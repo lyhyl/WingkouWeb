@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="22ea7e68-051d-4aee-b9c7-8226d6861db2" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:32768/ImageProcessingService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="ImageProcessingService.xsd" MetadataType="Schema" ID="4330633b-ddf5-4653-a046-9db52293fd47" SourceId="1" SourceUrl="http://localhost:32768/ImageProcessingService.svc?xsd=xsd1" />
+    <MetadataFile FileName="ImageProcessingService1.xsd" MetadataType="Schema" ID="bf6220ae-257d-4b9a-9840-99d0c6dee345" SourceId="1" SourceUrl="http://localhost:32768/ImageProcessingService.svc?xsd=xsd2" />
+    <MetadataFile FileName="ImageProcessingService2.xsd" MetadataType="Schema" ID="6fe3daf8-eb41-42c3-9912-f78d405fa572" SourceId="1" SourceUrl="http://localhost:32768/ImageProcessingService.svc?xsd=xsd0" />
+    <MetadataFile FileName="ImageProcessingService.disco" MetadataType="Disco" ID="a799aa20-4040-47be-9f35-5154cc3dd021" SourceId="1" SourceUrl="http://localhost:32768/ImageProcessingService.svc?disco" />
+    <MetadataFile FileName="ImageProcessingService.wsdl" MetadataType="Wsdl" ID="e3396312-fe18-4848-9758-fc66d14fb148" SourceId="1" SourceUrl="http://localhost:32768/ImageProcessingService.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -9,12 +9,11 @@ using System.Threading.Tasks;
 
 namespace ImageProcessingServicePlugin
 {
-    public interface IIPSPlugin
+    public interface IIPSPlugin : IDisposable
     {
         string Name { get; }
         string Description { get; }
-        Image Process(string uri);
-        Image Process(Image image);
+        string Process(string uri);
     }
 
     public static class TypeExt
