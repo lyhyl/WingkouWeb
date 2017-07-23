@@ -14,5 +14,10 @@ namespace WingkouWeb.Hubs
         {
             HubContext.Clients.Client(connId).updateProgress(percentage, message);
         }
+
+        public static void ReceiveData(string connId, string data, int len, int tot)
+        {
+            HubContext.Clients.Client(connId).receiveData(data, len, tot);
+        }
     }
 }

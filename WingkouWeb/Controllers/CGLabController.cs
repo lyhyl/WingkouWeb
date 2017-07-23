@@ -29,56 +29,71 @@ namespace WingkouWeb.Controllers
         //http://blog.darkthread.net/post-2014-03-09-upload-progress-bar-w-xhr2.aspx
         //http://blog.darkthread.net/post-2014-03-10-upload-progress-bar-w-signalr.aspx
         [HttpPost]
-        public ActionResult PImg(string file, string connId, string method)
+        public ActionResult PImg(string connId, string method)
         {
-            var stream = Request.InputStream;
-            var errMsg = string.Empty;
-            var result = string.Empty;
+            Action<float, float, float> report =
+                (p, o, l) => ProcessingHub.UpdateProgress(connId, o + l * p, string.Empty);
             try
             {
-                long totalLen = stream.Length, savedLen = 0;
-                var task = Task.Factory.StartNew(() =>
-                {
-                    string base64 = string.Empty;
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        byte[] buffer = new byte[1024 * 1024];
-                        while (savedLen < totalLen)
-                        {
-                            var len = stream.Read(buffer, 0, buffer.Length);
-                            ms.Write(buffer, 0, len);
-                            savedLen += len;
-                        }
-                        base64 = Convert.ToBase64String(ms.ToArray());
-                    }
-                    using (ImageProcessingServiceClient client = new ImageProcessingServiceClient())
-                    {
-                        result = client.ProcessImage(base64, method);
-                    }
-                });
+                string base64 = ConvertToBase64(Request.InputStream, (p) => report(p, 0, 20));
 
-                while (!task.IsCompleted && !task.IsCanceled && !task.IsFaulted)
-                {
-                    ProcessingHub.UpdateProgress(connId, 0.3f * savedLen / totalLen * 100, string.Empty);
-                    Thread.Sleep(200);
-                }
+                string result = Process(method, base64, (p) => report(p, 20, 20));
 
-                if (task.IsCompleted && !task.IsFaulted && result != string.Empty)
-                {
-                    ProcessingHub.UpdateProgress(connId, 100, string.Empty);
-                    return Content(result);
-                }
-                else
-                {
-                    ProcessingHub.UpdateProgress(connId, -1, errMsg);
-                    errMsg = task.Exception.InnerExceptions.Select(o => o.Message).Aggregate((a, b) => $"{a}|{b}");
-                    return Content(errMsg);
-                }
+                SendBack(connId, result, (p) => report(p, 40, 60));
+
+                ProcessingHub.UpdateProgress(connId, 100, string.Empty);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                errMsg = ex.Message;
-                return Content(errMsg);
+                ProcessingHub.UpdateProgress(connId, -1, string.Empty);
+                return Content(e.Message);
+            }
+            return Content("");
+        }
+
+        private static void SendBack(string connId, string result, Action<float> report)
+        {
+            int rd = 0, rdt = result.Length;
+            while (rd < rdt)
+            {
+                // 128Kb
+                int len = Math.Min(128 * 1024, rdt - rd);
+                ProcessingHub.ReceiveData(connId, result.Substring(rd, len), len, rdt);
+                rd += len;
+
+                report((float)rd / rdt);
+            }
+        }
+
+        private static string Process(string method, string base64, Action<float> report)
+        {
+            string result;
+            using (ImageProcessingServiceClient client = new ImageProcessingServiceClient())
+                result = client.ProcessImage(base64, method);
+
+            report(100);
+
+            if (string.IsNullOrEmpty(result))
+                throw new InvalidDataException("Null result");
+            return result;
+        }
+
+        private static string ConvertToBase64(Stream stream, Action<float> report)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                // 1Mb
+                byte[] buffer = new byte[1024 * 1024];
+                long totalLen = stream.Length, savedLen = 0;
+                while (savedLen < totalLen)
+                {
+                    var len = stream.Read(buffer, 0, buffer.Length);
+                    ms.Write(buffer, 0, len);
+                    savedLen += len;
+
+                    report((float)savedLen / totalLen);
+                }
+                return Convert.ToBase64String(ms.ToArray());
             }
         }
     }

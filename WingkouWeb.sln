@@ -18,7 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{B2E7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugin", "Plugin", "{F6488583-278A-45E2-A0A9-9EC6ADD61C33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPPRaw", "IPPRaw\IPPRaw.csproj", "{E6D825A8-DC15-407B-B805-91F7B06C49F0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPSPRaw", "IPSPRaw\IPSPRaw.csproj", "{E6D825A8-DC15-407B-B805-91F7B06C49F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

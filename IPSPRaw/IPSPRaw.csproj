@@ -7,8 +7,8 @@
     <ProjectGuid>{E6D825A8-DC15-407B-B805-91F7B06C49F0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IPPRaw</RootNamespace>
-    <AssemblyName>IPPRaw</AssemblyName>
+    <RootNamespace>IPSPRaw</RootNamespace>
+    <AssemblyName>IPSPRaw</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />

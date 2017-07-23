@@ -55,6 +55,19 @@
         hub.client.updateProgress = function (percentage, message) {
             document.getElementById("progressBar1").style.width = percentage.toFixed(2) + "%";
         };
+
+        var imgData = "";
+        var rlen = 0;
+        hub.client.receiveData = function (data, len, tot) {
+            rlen += len;
+            imgData += data;
+
+            if (imgData.length === tot) {
+                document.getElementById("ImagePreviewer").src = "data:image/jpeg;base64," + imgData;
+                document.getElementById("UploadButton").style.display = "none";
+                document.getElementById("ProgressPanel").style.height = "0%";
+            }
+        };
     </script>
 }
 
@@ -106,7 +119,7 @@
     <input type="file" id="ImageSelector" class="uploader" required onchange="ShowImagePreview(this)" />
     <div style="position:relative;text-align:center;">
         <label for="ImageSelector">
-            <img id="ImagePreviewer" class="img-thumbnail" src="~/Content/ui/selectImage.png"/>
+            <img id="ImagePreviewer" class="img-thumbnail" src="~/Content/ui/selectImage.png" alt="点击选取" />
         </label>
     </div>
     <input type="button" id="UploadButton" class="btn btn-default" style="width:100%;max-width:100%;" value="生成心情图片" onclick="Upload()" />
