@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "How Are U Today?";
+    ViewBag.Title = "IOIO Sketch Drawing";
 }
 
 <style>
@@ -46,7 +46,7 @@
     <script src="~/signalr/hubs"></script>
     <script src="~/Scripts/upload.js"></script>
     <script>
-        method = "ImageProcessingHRUT";
+        method = "ImageProcessingIOIO";
 
         var connId;
         var hub = $.connection.processingHub;
@@ -122,11 +122,11 @@
 </div>
 
 <div class="jumbotron">
-    <h1>今天怎么样?</h1>
+    <h1>IOIO Sketch Drawing</h1>
     <p class="lead" style="text-align:right">
-        来张自拍
+        IOIO
         <br />
-        生成你的心情图片~
+        Sketch Drawing
     </p>
 
     <div id="InputPanel">
@@ -136,7 +136,7 @@
                 <img id="ImagePreviewer" class="img-thumbnail" src="~/Content/ui/selectImage.png" alt="点击选取" />
             </label>
         </div>
-        <input type="button" id="UploadButton" class="btn btn-default" style="width:100%;max-width:100%;" value="生成心情图片" onclick="Upload()" />
+        <input type="button" id="UploadButton" class="btn btn-default" style="width:100%;max-width:100%;" value="Sketch!" onclick="Upload()" />
     </div>
 
     <div id="OutputPanel" class="hidden">

@@ -20,6 +20,13 @@ namespace WingkouWeb.Controllers
             return View();
         }
 
+        public ActionResult IOIO()
+        {
+            ViewBag.Message = "IOIO Sketch Drawing";
+
+            return View();
+        }
+
         //http://blog.darkthread.net/post-2014-03-09-upload-progress-bar-w-xhr2.aspx
         //http://blog.darkthread.net/post-2014-03-10-upload-progress-bar-w-signalr.aspx
         [HttpPost]
