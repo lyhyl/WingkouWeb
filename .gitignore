@@ -7,6 +7,9 @@
 *.userosscache
 *.sln.docstates
 
+# Em...
+CGLabPlugins/
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

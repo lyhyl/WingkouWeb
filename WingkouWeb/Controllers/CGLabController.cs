@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using WingkouWeb.Hubs;
 using WingkouWeb.ImageProcessingService;
@@ -45,7 +39,7 @@ namespace WingkouWeb.Controllers
             }
             catch (Exception e)
             {
-                ProcessingHub.UpdateProgress(connId, -1, string.Empty);
+                ProcessingHub.UpdateProgress(connId, -1, e.Message);
                 return Content(e.Message);
             }
             return Content("");
@@ -71,10 +65,11 @@ namespace WingkouWeb.Controllers
             using (ImageProcessingServiceClient client = new ImageProcessingServiceClient())
                 result = client.ProcessImage(base64, method);
 
-            report(100);
+            report(1);
 
             if (string.IsNullOrEmpty(result))
                 throw new InvalidDataException("Null result");
+
             return result;
         }
 

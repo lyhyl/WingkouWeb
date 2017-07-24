@@ -76,7 +76,7 @@ function Upload() {
         $.ajax({
             async: true,
             type: "POST",
-            url: uploadUrl + "?connId=" + connId + "&method=" + "ImageProcessingRaw",
+            url: uploadUrl + "?connId=" + connId + "&method=" + "ImageProcessingHRUT",
             contentType: "application/octect-stream",
             processData: false,
             data: e.target.result,

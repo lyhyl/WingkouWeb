@@ -8,9 +8,9 @@ namespace IPSPRaw
 {
     public class ImageProcessingRaw : IIPSPlugin
     {
-        public string Name => "Raw";
+        public string Name => nameof(ImageProcessingRaw);
 
-        public string Description => "No processing, return the raw image";
+        public string Description => "Horizontal flip only";
 
         public void Dispose() { }
 

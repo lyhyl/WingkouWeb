@@ -1,4 +1,5 @@
 ﻿using ImageProcessingServicePlugin;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -31,9 +32,8 @@ namespace ImageProcessingService
             {
                 plugin = PluginManager.Create(methodName);
                 res = plugin.Process(uri);
-                plugin.Dispose();
             }
-            catch
+            catch(Exception e)
             {
             }
             finally

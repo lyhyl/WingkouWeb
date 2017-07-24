@@ -53,7 +53,13 @@
         });
 
         hub.client.updateProgress = function (percentage, message) {
-            document.getElementById("progressBar1").style.width = percentage.toFixed(2) + "%";
+            if (percentage < 0) {
+                alert(message);
+                document.getElementById("ProgressPanel").style.height = "0%";
+            }
+            else {
+                document.getElementById("progressBar1").style.width = percentage.toFixed(2) + "%";
+            }
         };
 
         var imgData = "";
@@ -63,8 +69,9 @@
             imgData += data;
 
             if (imgData.length === tot) {
-                document.getElementById("ImagePreviewer").src = "data:image/jpeg;base64," + imgData;
-                document.getElementById("UploadButton").style.display = "none";
+                document.getElementById("InputPanel").className = "hidden";
+                document.getElementById("OutputPanel").className = "";
+                document.getElementById("OutputImage").src = "data:image/jpeg;base64," + imgData;
                 document.getElementById("ProgressPanel").style.height = "0%";
             }
         };
@@ -89,18 +96,22 @@
     <div class="overlay-content-outer">
         <div class="overlay-content-middle">
             <div class="overlay-content-inner">
-                <div class="text-center text-info">
-                    Uploading
-                </div>
-                <div class="progress">
-                    <div id="progressBar0" class="progress-bar progress-bar-success progress-bar-striped active" style="width:0%;transition:ease 0.2s;">
-                    </div>
-                </div>
-                <div class="text-center text-info">
-                    Processing
-                </div>
-                <div class="progress">
-                    <div id="progressBar1" class="progress-bar progress-bar-success progress-bar-striped active" style="width:0%;transition:ease 0.2s;">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="text-center text-info">
+                            Uploading
+                        </div>
+                        <div class="progress">
+                            <div id="progressBar0" class="progress-bar progress-bar-success progress-bar-striped active" style="width:0%;transition:ease 0.2s;">
+                            </div>
+                        </div>
+                        <div class="text-center text-info">
+                            Processing
+                        </div>
+                        <div class="progress">
+                            <div id="progressBar1" class="progress-bar progress-bar-success progress-bar-striped active" style="width:0%;transition:ease 0.2s;">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -108,7 +119,7 @@
     </div>
 </div>
 
-<div id="UploadPanel" class="jumbotron">
+<div class="jumbotron">
     <h1>今天怎么样?</h1>
     <p class="lead" style="text-align:right">
         来张自拍
@@ -116,11 +127,19 @@
         生成你的心情图片~
     </p>
 
-    <input type="file" id="ImageSelector" class="uploader" required onchange="ShowImagePreview(this)" />
-    <div style="position:relative;text-align:center;">
-        <label for="ImageSelector">
-            <img id="ImagePreviewer" class="img-thumbnail" src="~/Content/ui/selectImage.png" alt="点击选取" />
-        </label>
+    <div id="InputPanel">
+        <input type="file" id="ImageSelector" class="uploader" required onchange="ShowImagePreview(this)" />
+        <div style="position:relative;text-align:center;">
+            <label for="ImageSelector">
+                <img id="ImagePreviewer" class="img-thumbnail" src="~/Content/ui/selectImage.png" alt="点击选取" />
+            </label>
+        </div>
+        <input type="button" id="UploadButton" class="btn btn-default" style="width:100%;max-width:100%;" value="生成心情图片" onclick="Upload()" />
     </div>
-    <input type="button" id="UploadButton" class="btn btn-default" style="width:100%;max-width:100%;" value="生成心情图片" onclick="Upload()" />
+
+    <div id="OutputPanel" class="hidden">
+        <div style="text-align:center;">
+            <img id="OutputImage" class="img-thumbnail" src="" alt="..." />
+        </div>
+    </div>
 </div>

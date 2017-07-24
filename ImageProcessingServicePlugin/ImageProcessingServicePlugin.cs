@@ -32,17 +32,32 @@ namespace ImageProcessingServicePlugin
 
     public class PluginManager
     {
+        private const string dependencyDir = "_Dependency";
         private List<Type> plugins = new List<Type>();
+        private string PluginPath;
 
         public PluginManager(string pluginPath)
         {
-            foreach (var file in Directory.GetFiles(pluginPath, "*.dll"))
+            PluginPath = pluginPath;
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+            foreach (var dir in Directory.GetDirectories(pluginPath))
             {
+                string dirName = Path.GetFileName(dir);
+                if (dirName == dependencyDir)
+                    continue;
+                string file = Path.Combine(dir, $"{dirName}.dll");
                 AssemblyName an = AssemblyName.GetAssemblyName(file);
                 Assembly assembly = Assembly.Load(an);
                 var types = assembly?.GetTypes() ?? Enumerable.Empty<Type>();
                 plugins.AddRange(types.Where(t => t.IsPlugin()));
             }
+        }
+
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            string dll = args.Name.Substring(0, args.Name.IndexOf(','));
+            System.Diagnostics.Debug.WriteLine($"Resolve: {dll} ({args.Name})");
+            return Assembly.LoadFrom(Path.Combine(PluginPath, $"_Dependency\\{dll}.dll"));
         }
 
         public IReadOnlyList<Type> Plugins => plugins;
