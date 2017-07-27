@@ -46,7 +46,7 @@ namespace WingkouWeb.Controllers
             }
             catch (Exception e)
             {
-                ProcessingHub.UpdateProgress(connId, -1, e.Message);
+                ProcessingHub.UpdateProgress(connId, -1, $"{e.Message}|{e.StackTrace}");
                 return Content(e.Message);
             }
             return Content("");
@@ -70,12 +70,14 @@ namespace WingkouWeb.Controllers
         {
             string result;
             using (ImageProcessingServiceClient client = new ImageProcessingServiceClient())
+            {
                 result = client.ProcessImage(base64, method);
 
-            report(1);
+                report(1);
 
-            if (string.IsNullOrEmpty(result))
-                throw new InvalidDataException("Null result");
+                if (string.IsNullOrEmpty(result))
+                    throw new InvalidDataException($"Null result", client.GetLastError());
+            }
 
             return result;
         }

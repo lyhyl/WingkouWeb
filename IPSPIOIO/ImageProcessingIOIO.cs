@@ -1,7 +1,4 @@
-﻿using Emgu.CV;
-using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
-using ImageProcessingServicePlugin;
+﻿using ImageProcessingServicePlugin;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -59,43 +56,31 @@ namespace IPSPIOIO
 
         public string Process(string uri)
         {
-            Image<Bgr, Byte> img;
+            Bitmap _original = null;
+            IOIOMatrix original = null;
+
             using (MemoryStream ms = new MemoryStream(Convert.FromBase64String(uri)))
             {
-                Bitmap bmp = new Bitmap(ms);
-                img = new Image<Bgr, Byte>(bmp);
+                _original = new Bitmap(ms);
+                original = new IOIOMatrix(_original);
             }
-            Mat original = img.Mat;
-
-            // Convert to gray-scale.
-            CvInvoke.CvtColor(original, original, ColorConversion.Bgr2Gray);
 
             // Resize to native resolution.
-            Mat preview = new Mat();
-            double scale = NATIVE_RESOLUTION / original.Cols;
-            CvInvoke.Resize(original, preview, new Size(), scale, scale, Inter.Area);
+            float scale = (float)NATIVE_RESOLUTION / original.Width;
+            var _preview = ResizeImage(_original, scale);
+            var preview = new IOIOMatrix(_preview);
 
             // Down-sample.
-            Mat inp = new Mat();
-            CvInvoke.Resize(preview, inp, new Size(), SCALE, SCALE, Inter.Area);
+            var _inp = ResizeImage(_preview, (float)SCALE);
+            var inp = new IOIOMatrix(_inp);
+            
+            inp.Invert();
 
-            // Negative: bigger number = darker.
-            Mat scalar = new Mat(1, 1, DepthType.Cv64F, 1);
-            scalar.SetTo(new MCvScalar(255));
-            CvInvoke.Subtract(scalar, inp, inp);
-
-            // Convert to S16: we need more color resolution and negative numbers.
-            inp.ConvertTo(inp, DepthType.Cv16S);
-
-            // We scale such that for each line we can subtract GRAY_RESOLUTION and it will correspond
-            // to darkening by SCALE.
-            Mat white = new Mat(1, 1, DepthType.Cv64F, 1);
-            white.SetTo(new MCvScalar(1));
-            CvInvoke.Multiply(inp, white, inp, GRAY_RESOLUTION / SCALE / 255);
+            inp.Multiply(GRAY_RESOLUTION / SCALE / 255);
 
             // Now is the actual algorithm!
             Point lastP = Point.Empty;
-            double residualDarkness = average(inp) / GRAY_RESOLUTION * SCALE;
+            double residualDarkness = inp.Average() / GRAY_RESOLUTION * SCALE;
             double totalLength = 0;
             List<Line> lines = new List<Line>();
 
@@ -109,18 +94,26 @@ namespace IPSPIOIO
                     new Point(scaledLine.B.X, scaledLine.B.Y));
                 totalLength += line.Length;
                 lines.Add(line);
-                residualDarkness = average(inp) / GRAY_RESOLUTION * SCALE;
+                residualDarkness = inp.Average() / GRAY_RESOLUTION * SCALE;
 
                 float p = (float)((residualDarkness - THRESHOLD) / (1 - THRESHOLD));
             }
 
-            return GetImage(preview.Size, lines);
+            return GetImage(preview.Width, preview.Height, lines);
         }
 
-        private string GetImage(Size size, List<Line> lines)
+        private static Bitmap ResizeImage(Bitmap original, float scale)
+        {
+            var preview = new Bitmap((int)(scale * original.Width), (int)(scale * original.Height));
+            using (Graphics g = Graphics.FromImage(preview))
+                g.DrawImage(original, new Rectangle(0, 0, preview.Width, preview.Height));
+            return preview;
+        }
+
+        private string GetImage(int width, int height, List<Line> lines)
         {
             string base64 = string.Empty;
-            using (Bitmap bmp = new Bitmap(size.Width, size.Height))
+            using (Bitmap bmp = new Bitmap(width, height))
             {
                 using (Graphics g = Graphics.FromImage(bmp))
                 {
@@ -137,31 +130,16 @@ namespace IPSPIOIO
             return base64;
         }
 
-        private double average(Mat inp)
+        private Line nextLine(IOIOMatrix image, int numAttempts, Point startPoint)
         {
-            double total = CvInvoke.Sum(inp).V0;
-            return total / (inp.Cols * inp.Rows);
-        }
-
-        private Line nextLine(Mat image, int numAttempts, Point startPoint)
-        {
-            Matrix<Byte> mask = new Matrix<Byte>(image.Size);
-            mask.SetZero();
-            Matrix<Byte> bestMask = new Matrix<Byte>(image.Size);
-            bestMask.SetZero();
             Line bestLine = new Line(Point.Empty, Point.Empty);
             double bestScore = double.NegativeInfinity;
             double bestAvgCover = double.NegativeInfinity;
             for (int i = 0; i < numAttempts; ++i)
             {
-                Line line;
-                generateRandomLine(image.Size, startPoint, out line);
+                Line line = generateRandomLine(image.Width, image.Height, startPoint);
 
-                // Calculate the score for this line as the average darkness over it.
-                // This way to calculate this is crazy inefficient, but compact...
-                mask.SetValue(new MCvScalar(0));
-                CvInvoke.Line(mask, line.A, line.B, new MCvScalar(GRAY_RESOLUTION));
-                double score = CvInvoke.Mean(image, mask).V0;
+                double score = image.Average(line);
                 double avgCover = score / line.Length;
 
                 if (UseIOIO2)
@@ -170,9 +148,6 @@ namespace IPSPIOIO
                     {
                         bestScore = score;
                         bestAvgCover = avgCover;
-                        Matrix<Byte> t = mask;
-                        mask = bestMask;
-                        bestMask = t;
                         bestLine = line;
                     }
                 }
@@ -182,26 +157,24 @@ namespace IPSPIOIO
                     {
                         bestScore = score;
                         bestAvgCover = avgCover;
-                        Matrix<Byte> t = mask;
-                        mask = bestMask;
-                        bestMask = t;
                         bestLine = line;
                     }
                 }
             }
-            CvInvoke.Subtract(image, bestMask, image, bestMask, image.Depth);
+            image.Subtract(bestLine, GRAY_RESOLUTION);
             return bestLine;
         }
 
-        private void generateRandomLine(Size s, Point pStart, out Line line)
+        private Line generateRandomLine(int w, int h, Point pStart)
         {
-            line = new Line(pStart, Point.Empty);
+            var line = new Line(pStart, Point.Empty);
             do
             {
                 line.B = new Point(
-                    (int)(random_.NextDouble() * s.Width),
-                    (int)(random_.NextDouble() * s.Height));
+                    (int)(random_.NextDouble() * w),
+                    (int)(random_.NextDouble() * h));
             } while (line.A == line.B);
+            return line;
         }
 
         private Line scaleLine(Line line, double scale)
@@ -210,21 +183,5 @@ namespace IPSPIOIO
                 new Point((int)(line.A.X * scale), (int)(line.A.Y * scale)),
                 new Point((int)(line.B.X * scale), (int)(line.B.Y * scale)));
         }
-    }
-
-    internal struct Line
-    {
-        public Point A, B;
-        public Line(Point a, Point b)
-        {
-            A = a;
-            B = b;
-        }
-        public double Length => MathExt.Hypot(A.X - B.X, A.Y - B.Y);
-    }
-
-    public static class MathExt
-    {
-        public static double Hypot(double x, double y) => Math.Sqrt(x * x + y * y);
     }
 }

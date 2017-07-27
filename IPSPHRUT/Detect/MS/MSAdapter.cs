@@ -16,6 +16,7 @@ namespace IPSPHRUT
         public event EventHandler<DetectAdapterEventAgrs> OnFailure;
         public event EventHandler<DetectAdapterEventAgrs> OnSuccess;
 
+        private const string faceApiRoot = "https://southeastasia.api.cognitive.microsoft.com/face/v1.0";
         private FaceServiceClient msfclient = new FaceServiceClient("f7860639317d427995a944c810ad9291");
         private EmotionServiceClient mseclient = new EmotionServiceClient("44da51c4461d4fa7b78808fc7769f349");
 

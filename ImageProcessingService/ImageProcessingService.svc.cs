@@ -1,4 +1,5 @@
-﻿using ImageProcessingServicePlugin;
+﻿using ImageProcessingService.Utils;
+using ImageProcessingServicePlugin;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -10,6 +11,8 @@ namespace ImageProcessingService
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class ImageProcessingService : IImageProcessingService
     {
+        private static Exception _lastError = null;
+
         private static PluginManager _manager = null;
         private static PluginManager PluginManager
         {
@@ -33,8 +36,11 @@ namespace ImageProcessingService
                 plugin = PluginManager.Create(methodName);
                 res = plugin.Process(uri);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
+                _lastError = e;
+                Logger.SetConfig("C:\\WebLog", "ips");
+                Logger.WriteLog(e.Message, e);
             }
             finally
             {
@@ -46,6 +52,11 @@ namespace ImageProcessingService
         public IEnumerable<ProcessMethod> GetAvailableMethod()
         {
             return PluginManager.Plugins.Select(p => new ProcessMethod(p.Name, string.Empty));
+        }
+
+        public Exception GetLastError()
+        {
+            return _lastError;
         }
     }
 }

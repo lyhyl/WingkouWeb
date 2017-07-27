@@ -89,6 +89,12 @@ namespace WingkouWeb.ImageProcessingService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IImageProcessingService/GetAvailableMethod", ReplyAction="http://tempuri.org/IImageProcessingService/GetAvailableMethodResponse")]
         System.Threading.Tasks.Task<WingkouWeb.ImageProcessingService.ProcessMethod[]> GetAvailableMethodAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IImageProcessingService/GetLastError", ReplyAction="http://tempuri.org/IImageProcessingService/GetLastErrorResponse")]
+        System.Exception GetLastError();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IImageProcessingService/GetLastError", ReplyAction="http://tempuri.org/IImageProcessingService/GetLastErrorResponse")]
+        System.Threading.Tasks.Task<System.Exception> GetLastErrorAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -132,6 +138,14 @@ namespace WingkouWeb.ImageProcessingService {
         
         public System.Threading.Tasks.Task<WingkouWeb.ImageProcessingService.ProcessMethod[]> GetAvailableMethodAsync() {
             return base.Channel.GetAvailableMethodAsync();
+        }
+        
+        public System.Exception GetLastError() {
+            return base.Channel.GetLastError();
+        }
+        
+        public System.Threading.Tasks.Task<System.Exception> GetLastErrorAsync() {
+            return base.Channel.GetLastErrorAsync();
         }
     }
 }

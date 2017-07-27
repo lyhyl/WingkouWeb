@@ -16,6 +16,9 @@ namespace ImageProcessingService
 
         [OperationContract]
         IEnumerable<ProcessMethod> GetAvailableMethod();
+
+        [OperationContract]
+        Exception GetLastError();
     }
 
     [DataContract]

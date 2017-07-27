@@ -22,11 +22,12 @@
     <MetadataSource Address="http://localhost:32768/ImageProcessingService.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="ImageProcessingService.xsd" MetadataType="Schema" ID="4330633b-ddf5-4653-a046-9db52293fd47" SourceId="1" SourceUrl="http://localhost:32768/ImageProcessingService.svc?xsd=xsd1" />
-    <MetadataFile FileName="ImageProcessingService1.xsd" MetadataType="Schema" ID="bf6220ae-257d-4b9a-9840-99d0c6dee345" SourceId="1" SourceUrl="http://localhost:32768/ImageProcessingService.svc?xsd=xsd2" />
-    <MetadataFile FileName="ImageProcessingService2.xsd" MetadataType="Schema" ID="6fe3daf8-eb41-42c3-9912-f78d405fa572" SourceId="1" SourceUrl="http://localhost:32768/ImageProcessingService.svc?xsd=xsd0" />
     <MetadataFile FileName="ImageProcessingService.disco" MetadataType="Disco" ID="a799aa20-4040-47be-9f35-5154cc3dd021" SourceId="1" SourceUrl="http://localhost:32768/ImageProcessingService.svc?disco" />
     <MetadataFile FileName="ImageProcessingService.wsdl" MetadataType="Wsdl" ID="e3396312-fe18-4848-9758-fc66d14fb148" SourceId="1" SourceUrl="http://localhost:32768/ImageProcessingService.svc?wsdl" />
+    <MetadataFile FileName="ImageProcessingService1.xsd" MetadataType="Schema" ID="bf6220ae-257d-4b9a-9840-99d0c6dee345" SourceId="1" SourceUrl="http://localhost:32768/ImageProcessingService.svc?xsd=xsd2" />
+    <MetadataFile FileName="ImageProcessingService3.xsd" MetadataType="Schema" ID="a7c63cd0-e01b-47e7-a738-e73d10622a75" SourceId="1" SourceUrl="http://localhost:32768/ImageProcessingService.svc?xsd=xsd3" />
+    <MetadataFile FileName="ImageProcessingService2.xsd" MetadataType="Schema" ID="6fe3daf8-eb41-42c3-9912-f78d405fa572" SourceId="1" SourceUrl="http://localhost:32768/ImageProcessingService.svc?xsd=xsd0" />
+    <MetadataFile FileName="ImageProcessingService.xsd" MetadataType="Schema" ID="4330633b-ddf5-4653-a046-9db52293fd47" SourceId="1" SourceUrl="http://localhost:32768/ImageProcessingService.svc?xsd=xsd1" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

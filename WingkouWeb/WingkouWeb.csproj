@@ -195,6 +195,9 @@
     <None Include="Connected Services\ImageProcessingService\ImageProcessingService.disco" />
     <None Include="Connected Services\ImageProcessingService\configuration91.svcinfo" />
     <None Include="Connected Services\ImageProcessingService\configuration.svcinfo" />
+    <None Include="Connected Services\ImageProcessingService\ImageProcessingService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\ImageProcessingService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>

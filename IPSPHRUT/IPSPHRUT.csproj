@@ -190,6 +190,13 @@
     <Content Include="Content\emojiData\emotion\Surprise\4.png" />
     <Content Include="Content\progressx\0.png" />
     <Content Include="Content\progress\0.png" />
+    <Content Include="Content\ui\bg.png" />
+    <Content Include="Content\ui\biscuit.jpg" />
+    <Content Include="Content\ui\faceNotFound.jpg" />
+    <Content Include="Content\ui\powered_by_affdex_logo.png" />
+    <Content Include="Content\ui\selectImage.png" />
+    <Content Include="Content\ui\thumb.png" />
+    <Content Include="Content\ui\uploading.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
