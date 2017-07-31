@@ -40,7 +40,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @if (Request.Browser.IsMobileDevice)
+                    @if (Request.Browser.IsMobileDevice || Request.UserAgent.Contains("MicroMessenger"))
                     {
                         <li>@Html.ActionLink("CG Lab", "Index", "CGLab")</li>
                     }
