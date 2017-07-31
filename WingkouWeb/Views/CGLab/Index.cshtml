@@ -5,44 +5,64 @@
 
 @section scripts {
     <script src="~/Scripts/holder.js"></script>
+    <script type="text/javascript">
+        function MissImage(text, img) {
+            console.log(img, typeof (img), text);
+            img = $(img);
+            img.attr({ "data-src" : "holder.js/300x200" });
+            Holder.run({ images : img });
+        }
+    </script>
 }
 
-<div class="panel panel-default">
-    <div id="projectCarousel" class="carousel slide">
-        <ol class="carousel-indicators">
-            <li data-target="#projectCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#projectCarousel" data-slide-to="1"></li>
-        </ol>
+<style type="text/css">
+    .fill {
+        height: 100%;
+    }
+</style>
 
-        <div class="carousel-inner">
-            <div class="item active">
-                <img data-src="holder.js/100px300?theme=sky&text=How are U today">
+<div class="panel panel-default" style="padding-bottom: 42.85%; position:relative;">
+    <div style="position:absolute; top: 0; bottom: 0; left: 0; right: 0;">
+        <div id="projectCarousel" class="carousel slide fill">
+            <ol class="carousel-indicators" style="margin-bottom: 0;">
+                <li data-target="#projectCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#projectCarousel" data-slide-to="1"></li>
+            </ol>
+
+            <div class="carousel-inner fill">
+                <div class="item active fill">
+                    <a href="@Url.Action("HRUT", "CGLab")">
+                        <img id="imghurt" src="~/Content/ui/cglab/HRUT.jpg" style="width:100%" data-src="holder.js/100px100p?text=Who are U today">
+                    </a>
+                </div>
+                <div class="item fill">
+                    <a href="@Url.Action("IOIO", "CGLab")">
+                    <img id="imgioio" src="~/Content/ui/cglab/IOIO.jpg" style="width:100%" data-src="holder.js/100px100p?text=IOIO">
+                    </a>
+                </div>
             </div>
-            <div class="item">
-                <img data-src="holder.js/100px300?theme=vine&text=IOIO sketch">
-            </div>
+
+            <a href="#projectCarousel" data-slide="prev" class="fill">
+                <div class="carousel-control left fill" style="display: table; overflow: hidden;">
+                    <div style="display: table-cell; vertical-align: middle;">
+                        &lsaquo;
+                    </div>
+                </div>
+            </a>
+            <a href="#projectCarousel" data-slide="next" class="fill">
+                <div class="carousel-control right fill" style="display: table; overflow: hidden;">
+                    <div style="display: table-cell; vertical-align: middle;">
+                        &rsaquo;
+                    </div>
+                </div>
+            </a>
         </div>
-
-        <a href="#projectCarousel" data-slide="prev">
-            <div class="carousel-control left" style="display: table; height: 300px; overflow: hidden;">
-                <div style="display: table-cell; vertical-align: middle;">
-                    &lsaquo;
-                </div>
-            </div>
-        </a>
-        <a href="#projectCarousel" data-slide="next">
-            <div class="carousel-control right" style="display: table; height: 300px; overflow: hidden;">
-                <div style="display: table-cell; vertical-align: middle;">
-                    &rsaquo;
-                </div>
-            </div>
-        </a>
     </div>
 </div>
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Wingkou!</h3>
+        <h3 class="panel-title">Wingkou's CG Lab!</h3>
     </div>
     <div class="panel-body">
         <ul>

@@ -209,6 +209,7 @@
     <Content Include="Content\ui\avatar128.png" />
     <Content Include="Content\ui\bg.png" />
     <Content Include="Content\ui\biscuit.jpg" />
+    <Content Include="Content\ui\cglab\HRUT.jpg" />
     <Content Include="Content\ui\faceNotFound.jpg" />
     <Content Include="Content\ui\powered_by_affdex_logo.png" />
     <Content Include="Content\ui\selectImage.png" />
@@ -288,7 +289,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\ui\cglab\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
