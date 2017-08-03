@@ -5,14 +5,6 @@
 
 @section scripts {
     <script src="~/Scripts/holder.js"></script>
-    <script type="text/javascript">
-        function MissImage(text, img) {
-            console.log(img, typeof (img), text);
-            img = $(img);
-            img.attr({ "data-src" : "holder.js/300x200" });
-            Holder.run({ images : img });
-        }
-    </script>
 }
 
 <style type="text/css">
@@ -69,5 +61,19 @@
             <li>@Html.ActionLink("How are U today?", "HRUT", "CGLab")</li>
             <li>@Html.ActionLink("IOIO sketch!", "IOIO", "CGLab")</li>
         </ul>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">CG Lab API</h3>
+    </div>
+    <div class="panel-body">
+        <p class="text-primary">若想使用上述效果服务,可以在C#内添加WCF服务:</p>
+        <a href="http://119.29.244.64:32768/ImageProcessingService.svc">
+            <p class="text-info" style="word-break:break-all">
+                <strong>http://119.29.244.64:32768/ImageProcessingService.svc</strong>
+            </p>
+        </a>
     </div>
 </div>
