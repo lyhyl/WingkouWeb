@@ -1,6 +1,4 @@
-﻿@{
-    ViewBag.Title = "IOIO Sketch Drawing";
-}
+﻿@model WingkouWeb.Models.CGLabParams
 
 <style>
     .uploader {
@@ -46,7 +44,7 @@
     <script src="~/signalr/hubs"></script>
     <script src="~/Scripts/upload.js"></script>
     <script>
-        method = "ImageProcessingIOIO";
+        method = "@ViewBag.Method";
 
         var connId;
         var hub = $.connection.processingHub;
@@ -122,11 +120,9 @@
 </div>
 
 <div class="jumbotron">
-    <h1>IOIO Sketch Drawing</h1>
+    <h1>@ViewBag.Title</h1>
     <p class="lead" style="text-align:right">
-        IOIO
-        <br />
-        Sketch Drawing
+        @Html.Raw(ViewBag.Description.Replace("\n", "<br/>"))
     </p>
 
     <div id="InputPanel">
@@ -136,7 +132,7 @@
                 <img id="ImagePreviewer" class="img-thumbnail" src="~/Content/ui/selectImage.png" alt="点击选取" />
             </label>
         </div>
-        <input type="button" id="UploadButton" class="btn btn-default" style="width:100%;max-width:100%;" value="Sketch!" onclick="Upload()" />
+        <input type="button" id="UploadButton" class="btn btn-default" style="width:100%;max-width:100%;" value="@ViewBag.ButtonText" onclick="Upload()" />
     </div>
 
     <div id="OutputPanel" class="hidden">

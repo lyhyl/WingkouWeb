@@ -3,6 +3,7 @@ using System.IO;
 using System.Web.Mvc;
 using WingkouWeb.Hubs;
 using WingkouWeb.ImageProcessingService;
+using WingkouWeb.Models;
 
 namespace WingkouWeb.Controllers
 {
@@ -15,20 +16,26 @@ namespace WingkouWeb.Controllers
 
         public ActionResult HRUT()
         {
-            ViewBag.Message = "How Are U Today?";
+            ViewBag.Title = "How Are U Today?";
+            ViewBag.Method = "ImageProcessingHRUT";
+            ViewBag.Description = "来张自拍\n生成你的心情图片~";
+            ViewBag.ButtonText = "生成心情图片";
 
-            return View();
+            var model = new CGLabParams();
+            return View("Lab", model);
         }
 
         public ActionResult IOIO()
         {
-            ViewBag.Message = "IOIO Sketch Drawing";
+            ViewBag.Title = "IOIO Sketch Drawing";
+            ViewBag.Method = "ImageProcessingIOIO";
+            ViewBag.Description = "IOIO\nSketch Drawing";
+            ViewBag.ButtonText = "Sketch!";
 
-            return View();
+            var model = new CGLabParams();
+            return View("Lab", model);
         }
-
-        //http://blog.darkthread.net/post-2014-03-09-upload-progress-bar-w-xhr2.aspx
-        //http://blog.darkthread.net/post-2014-03-10-upload-progress-bar-w-signalr.aspx
+        
         [HttpPost]
         public ActionResult PImg(string connId, string method)
         {
