@@ -82,7 +82,6 @@
     <Compile Include="Helper\FaceDrawer.cs" />
     <Compile Include="Helper\GraphicsExtensions.cs" />
     <Compile Include="ImageProcessingHRUT.cs" />
-    <Compile Include="PhotoHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

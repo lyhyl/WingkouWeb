@@ -12,7 +12,7 @@ namespace ImageProcessingService
     public interface IImageProcessingService
     {
         [OperationContract]
-        string ProcessImage(string uri, string methodName);
+        string ProcessImage(string uri, string methodName, Action<double> callback);
 
         [OperationContract]
         IEnumerable<ProcessMethod> GetAvailableMethod();

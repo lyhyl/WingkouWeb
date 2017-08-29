@@ -27,19 +27,19 @@ namespace ImageProcessingService
             }
         }
 
-        public string ProcessImage(string uri, string methodName)
+        public string ProcessImage(string uri, string methodName, Action<double> callback)
         {
             string res = string.Empty;
             IIPSPlugin plugin = null;
             try
             {
                 plugin = PluginManager.Create(methodName);
-                res = plugin.Process(uri);
+                res = plugin.Process(uri, callback);
             }
             catch (Exception e)
             {
                 _lastError = e;
-                Logger.SetConfig("C:\\WebLog", "ips");
+                Logger.SetConfig("C:\\WebLog", "ips1");
                 Logger.WriteLog(e.Message, e);
             }
             finally

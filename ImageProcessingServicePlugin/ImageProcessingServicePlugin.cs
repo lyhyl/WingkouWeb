@@ -14,6 +14,7 @@ namespace ImageProcessingServicePlugin
         string Name { get; }
         string Description { get; }
         string Process(string uri);
+        string Process(string uri, Action<double> callback);
     }
 
     public static class TypeExt

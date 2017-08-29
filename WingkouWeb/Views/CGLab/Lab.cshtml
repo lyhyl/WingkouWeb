@@ -43,38 +43,23 @@
     <script src="~/Scripts/jquery.signalR-2.2.2.js"></script>
     <script src="~/signalr/hubs"></script>
     <script src="~/Scripts/upload.js"></script>
+    <script src="~/Scripts/download.js"></script>
     <script>
+        // process method
         method = "@ViewBag.Method";
-
-        var connId;
-        var hub = $.connection.processingHub;
-        $.connection.hub.start().done(function () {
-            connId = $.connection.hub.id;
+        getParams = @Model.GetParamsQueryJS();
+        function () {
+            var p = "";
+            var a = document.getElementById("");
+            p+=a.v
+            return p;
+        }
+        
+        // dropdown
+        $(".dropdown-menu li a").click(function () {
+            var selText = $(this).text();
+            $(this).parents('.btn-group').find('.dropdown-toggle').html(selText + ' <span class="caret"></span>');
         });
-
-        hub.client.updateProgress = function (percentage, message) {
-            if (percentage < 0) {
-                alert(message);
-                document.getElementById("ProgressPanel").style.height = "0%";
-            }
-            else {
-                document.getElementById("progressBar1").style.width = percentage.toFixed(2) + "%";
-            }
-        };
-
-        var imgData = "";
-        var rlen = 0;
-        hub.client.receiveData = function (data, len, tot) {
-            rlen += len;
-            imgData += data;
-
-            if (imgData.length === tot) {
-                document.getElementById("InputPanel").className = "hidden";
-                document.getElementById("OutputPanel").className = "";
-                document.getElementById("OutputImage").src = "data:image/jpeg;base64," + imgData;
-                document.getElementById("ProgressPanel").style.height = "0%";
-            }
-        };
     </script>
 }
 
@@ -132,6 +117,7 @@
                 <img id="ImagePreviewer" class="img-thumbnail" src="~/Content/ui/selectImage.png" alt="点击选取" />
             </label>
         </div>
+        @Model.GetParamsPanel()
         <input type="button" id="UploadButton" class="btn btn-default" style="width:100%;max-width:100%;" value="@ViewBag.ButtonText" onclick="Upload()" />
     </div>
 

@@ -54,7 +54,9 @@ namespace IPSPIOIO
 
         private static Random random_ = new Random();
 
-        public string Process(string uri)
+        public string Process(string uri) => Process(uri, null);
+
+        public string Process(string uri, Action<double> callback)
         {
             Bitmap _original = null;
             IOIOMatrix original = null;
@@ -73,7 +75,7 @@ namespace IPSPIOIO
             // Down-sample.
             var _inp = ResizeImage(_preview, (float)SCALE);
             var inp = new IOIOMatrix(_inp);
-            
+
             inp.Invert();
 
             inp.Multiply(GRAY_RESOLUTION / SCALE / 255);
@@ -83,6 +85,8 @@ namespace IPSPIOIO
             double residualDarkness = inp.Average() / GRAY_RESOLUTION * SCALE;
             double totalLength = 0;
             List<Line> lines = new List<Line>();
+
+            double deltaDarkness = residualDarkness - THRESHOLD;
 
             while (residualDarkness > THRESHOLD)
             {
@@ -96,7 +100,7 @@ namespace IPSPIOIO
                 lines.Add(line);
                 residualDarkness = inp.Average() / GRAY_RESOLUTION * SCALE;
 
-                float p = (float)((residualDarkness - THRESHOLD) / (1 - THRESHOLD));
+                callback?.Invoke(1 - (residualDarkness - THRESHOLD) / deltaDarkness);
             }
 
             return GetImage(preview.Width, preview.Height, lines);

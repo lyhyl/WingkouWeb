@@ -23,6 +23,6 @@ namespace IPSPHRUT
     {
         event EventHandler<DetectAdapterEventAgrs> OnFailure;
         event EventHandler<DetectAdapterEventAgrs> OnSuccess;
-        void Process(Bitmap image);
+        void Process(Bitmap image, Action<double> report);
     }
 }

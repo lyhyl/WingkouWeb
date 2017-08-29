@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
 using WingkouWeb.Hubs;
@@ -32,12 +33,34 @@ namespace WingkouWeb.Controllers
             ViewBag.Description = "IOIO\nSketch Drawing";
             ViewBag.ButtonText = "Sketch!";
 
-            var model = new CGLabParams();
+            var model = new CGLabParams(
+                new List<CGLabParamsItem>()
+                {
+                    new CGLabParamsItem()
+                    {
+                        Name = "密度",
+                        HName = "ithr",
+                        Type = CGLabParamsType.Value
+                    },
+                    new CGLabParamsItem()
+                    {
+                        Name = "反相",
+                        HName = "inv",
+                        Type = CGLabParamsType.Option
+                    },
+                    new CGLabParamsItem()
+                    {
+                        Name = "旋转",
+                        HName = "rot",
+                        Type = CGLabParamsType.Combo,
+                        Params = new List<string>(new string[]{ "0","90","180","270" })
+                    }
+                });
             return View("Lab", model);
         }
         
         [HttpPost]
-        public ActionResult PImg(string connId, string method)
+        public ActionResult PImg(string connId, string method, string parameters)
         {
             Action<float, float, float> report =
                 (p, o, l) => ProcessingHub.UpdateProgress(connId, o + l * p, string.Empty);

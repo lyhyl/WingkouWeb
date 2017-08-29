@@ -1,19 +1,15 @@
 ﻿//using Affdex;
 using MathNet.Spatial.Euclidean;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IPSPHRUT
 {
-    public class FaceDrawer
+    public class FaceDrawer : IDisposable
     {
         private PrivateFontCollection pfc = new PrivateFontCollection();
 
@@ -68,7 +64,7 @@ namespace IPSPHRUT
         private void DrawDesc(Graphics g, FaceBase face, Size size)
         {
             GraphicsState gstate = g.Save();
-            
+
             CircleF circle = face.EnclosingCircle();
             Color outlineColor = Describer.GenderColor(face);
 
@@ -176,7 +172,7 @@ namespace IPSPHRUT
                 DrawImageMappingColor(g, progess, emotionColor,
                     new RectangleF(left + tSize.Height, tSize.Height, cw * ratio, tSize.Height),
                     new RectangleF(0, 0, cw, progess.Height));
-                
+
                 DrawImageMappingColor(g, progessx, Color.Black,
                     new RectangleF(left + tSize.Height, tSize.Height, progessx.Width * ratio, tSize.Height),
                     new RectangleF(0, 0, progessx.Width, progessx.Height));
@@ -361,6 +357,11 @@ namespace IPSPHRUT
                     g.FillRectangle(bs, new Rectangle(Point.Empty, size));
             }
             return bmp;
+        }
+
+        public void Dispose()
+        {
+            pfc.Dispose();
         }
     }
 }

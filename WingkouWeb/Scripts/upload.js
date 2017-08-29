@@ -1,5 +1,6 @@
 ﻿var uploadUrl = "/cglab/pimg";
 var method = "ImageProcessingRaw";
+var getParams;
 
 function getRootUrl() {
     return window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
@@ -77,7 +78,7 @@ function Upload() {
         $.ajax({
             async: true,
             type: "POST",
-            url: uploadUrl + "?connId=" + connId + "&method=" + method,
+            url: uploadUrl + "?connId=" + connId + "&method=" + method + "&parameters" + getParams(),
             contentType: "application/octect-stream",
             processData: false,
             data: e.target.result,
